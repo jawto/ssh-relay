@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.9
+FROM alpine:edge
 
 RUN apk --update add \
 		openssh-client openssh-server-pam linux-pam \
