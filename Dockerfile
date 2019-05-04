@@ -1,16 +1,10 @@
-# vim: ft=dockerfile
-FROM alpine:edge
-ARG GA_VERSION=1.02
-LABEL \
-	description="Bastion with google authenticator" \
-	maintainer="johan@stenqvist.net" \
-	google.authenticator.version=$GA_VERSION
+FROM lsiobase/alpine:3.9
 
 RUN apk --update add \
-		openssh-server-pam linux-pam \
+		openssh-client openssh-server-pam linux-pam \
 		build-base automake autoconf libtool curl tar linux-pam-dev \
 	&& mkdir -p /src/ga \
-		&& curl -L https://github.com/google/google-authenticator/tarball/${GA_VERSION} \
+		&& curl -L https://github.com/google/google-authenticator/tarball/1.02 \
 		| tar -xzvf - -C /src/ga --strip-components 1 \
 		&& (cd /src/ga/libpam \
 			&& ./bootstrap.sh \
