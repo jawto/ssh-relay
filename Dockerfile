@@ -37,15 +37,11 @@ RUN apk --update add \
 	&& rm -f /etc/motd \
 	&& mv /usr/local/lib/security/pam_yubico.so /lib/security/
 
-ENV AUTH required
-
 COPY ./sshd_config /etc/ssh/
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN adduser -D -G users -s /bin/sh -h /bastion bastion \
 	&& passwd -u bastion
-RUN chmod +x /usr/local/bin/entrypoint.sh 
 
 EXPOSE 22
 VOLUME /etc/ssh /bastion
-ENTRYPOINT ["entrypoint.sh"]
+CMD ssh-keygen -A && /usr/sbin/sshd -De
