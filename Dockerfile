@@ -38,7 +38,6 @@ RUN apk --update add \
 	&& mv /usr/local/lib/security/pam_yubico.so /lib/security/
 
 ENV AUTH required
-ENV DEBUG false
 
 COPY ./sshd_config /etc/ssh/
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
