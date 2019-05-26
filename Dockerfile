@@ -34,7 +34,8 @@ RUN apk --update add \
 		build-base automake autoconf libtool libusb-dev curl-dev curl tar help2man linux-pam-dev \
 	&& rm -rf /var/cache/apk/* \
 	&& rm -rf /etc/ssh/ssh_host_*_key* \
-	&& rm -f /etc/motd
+	&& rm -f /etc/motd \
+	&& mv /usr/local/lib/security/pam_yubico.so /lib/security/
 
 ENV AUTH required
 ENV DEBUG false

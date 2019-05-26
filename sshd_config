@@ -1,4 +1,4 @@
-AllowAgentForwarding            no
+AllowAgentForwarding            yes
 AllowTcpForwarding              yes
 AuthenticationMethods           publickey,keyboard-interactive:pam
 AuthorizedKeysFile              authorized_keys
