@@ -33,7 +33,7 @@ COPY ./sshd.pam /etc/pam.d/sshd
 COPY ./run.sh run.sh
 
 RUN adduser --disabled-password --ingroup users --shell /bin/sh --home /bastion --gecos '' bastion
-RUN echo '[[ -e .google_authenticator ]] || google-authenticator' >> /etc/profile
+RUN echo '[ -e .google_authenticator ] || google-authenticator' >> /etc/profile
 
 EXPOSE 22
 VOLUME /etc/ssh /bastion
