@@ -9,6 +9,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
       libpam0g-dev \
       libtool \
       openssh-client \
+      openssh-server \
       procps \
     && mkdir -p /src/ga \
 	    && curl -L https://github.com/google/google-authenticator/tarball/1.02 \
@@ -23,15 +24,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     && DEBIAN_FRONTEND=noninteractive apt-get purge -y autoconf build-essential libpam0g-dev libtool \
     && DEBIAN_FRONTEND=noninteractive apt -y autoremove \
     && DEBIAN_FRONTEND=noninteractive apt-get -y clean \
+    && mkdir -p /run/sshd \
     && rm -rf /etc/ssh/ssh_host_*_key* \
     && rm -f /etc/motd
 
 COPY ./sshd_config /etc/ssh/
 COPY ./sshd.pam /etc/pam.d/sshd
+COPY ./run.sh run.sh
 
 RUN adduser --disabled-password --ingroup users --shell /bin/sh --home /bastion --gecos '' bastion
 RUN echo '[[ -e .google_authenticator ]] || google-authenticator' >> /etc/profile
 
 EXPOSE 22
 VOLUME /etc/ssh /bastion
-CMD ["sh", "-c", "/bin/ping -q -i 5 www.google.com; ssh-keygen -A && /usr/sbin/sshd -De"]
+CMD ./run.sh
